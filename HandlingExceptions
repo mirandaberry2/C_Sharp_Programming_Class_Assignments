@@ -1,0 +1,389 @@
+//My Name: Miranda Berry
+//Date: Mon 3 Mar 2025
+//Program: Handling Exceptions
+//Language: C#
+
+//Create a base class Account.
+using System;
+using System.Net;
+using static System.Console;
+
+class Account
+{
+    /*Include the private instance variables, which are initialized using the apppropriate mutator methods (i.e.
+      setAccountName, setAccountNumber, and setBalance).*/
+    //Include appropriate accessor (i.e. "get") methods.
+    /*balance:represent the account balance. Rubric says type double, but I could not get double to decimal
+      conversion to not produce 7 errors.*/
+
+    /*I had to make access modifier protected so that SetInterestRate() method could access balance variable.
+      This technique is reccomended in section 10-3 of our textbook.*/
+    protected decimal balance;
+    public decimal Balance;
+
+    //balance getter
+    public decimal GetBalance()
+    {
+        return this.balance;
+    }
+
+    //balance setter
+    public decimal SetBalance(decimal balancePassedIn)
+    {
+        if (balancePassedIn >= 0)
+        {
+            this.balance = balancePassedIn;
+            return balance;
+        }
+
+        else
+        {
+            //If user passes negative amount, exception will be thrown that alerts user negative was entered.
+            //Once error (negative amount) occurs, program should inform user negative numbers not permitted.
+            /*Create exception class (NegativeNumberException) that takes string argument to its constructor
+              that represents error. String should be "Invalid Entry -- Negative numbers are not permitted."*/
+            throw new Exception("Invalid Entry -- Negative numbers are not permitted.");
+        }
+    }
+
+    //accountName: type string; represents the account holder's last name.
+    //Include appropriate accessor (i.e. "get") methods.
+    private string accountName;
+    public string AccountName;
+
+    //accountName getter
+    public string GetAccountName()
+    {
+        return this.accountName;
+    }
+
+    //accountName setter
+    public void SetAccountName()
+    {
+        this.accountName = accountName;
+    }
+
+    //accountNumber: type string; represents the account's number.
+    //Include appropriate accessor (i.e. "get") methods.
+    private int accountNumber;
+    public int AccountNumber;
+
+    //accountNumber getter
+    public int GetAccountNumber()
+    {
+        return this.accountNumber;
+    }
+
+    //accountNumber setter
+    public int SetAccountNumber(int accountNumberPassedIn)
+    {
+        this.accountNumber = accountNumberPassedIn;
+        return accountNumber;
+    }
+
+    //Base class should provide a constructor that receives account's name, account number, & initial balance.
+    public Account(string accountName, int accountNumber, int balance)
+    {
+        SetAccountName();
+        SetAccountNumber(accountNumber);
+        SetBalance(balance);
+    }
+
+    //Declare and initialize variable to add an amount to balance for Credit method.
+    decimal amountCredit = 0;
+
+    //Base class should provide public method Credit, which should add an amount to the current balance.
+    public virtual decimal Credit(decimal amountCredit)
+    {
+        balance += amountCredit;
+        return amountCredit;
+    }
+
+    //Declare and initialize variable to withdraw an amount to balance for Debit method.
+    decimal amountDebit = 0;
+
+    /*Base class should provide public method Debit, which should withdraw money from Account & ensure debit
+      amount does not exceed Account balance.*/
+    //If it does, balance should be left unchanged, and method should print "Insufficient Funds."
+    public virtual decimal Debit(decimal balance)
+    {
+        decimal currentBalance;
+        currentBalance = balance;
+
+        if (currentBalance > balance)
+        {
+            WriteLine("Insufficient Funds");
+            return balance;
+        }
+
+        else
+        {
+            currentBalance = balance;
+            return balance;
+        }
+    }
+
+    //Class should have a method PrintAccount that prints account's name, number, and balance.
+    public virtual void PrintAccount()
+    {
+        Console.WriteLine("Account Name: " + accountName);
+        Console.WriteLine("Account Number: " + accountNumber);
+        Console.WriteLine("Balance: " + balance);
+    }
+
+    //Declaring account number as constant to fix error "cannot implicity convert type "int" to "string".
+    private const int accountNumConstant = 1;
+
+    //Write an application that creates one object of each derived class and tests their methods.
+    static void Main()
+    {
+
+        //Generate a menu. Loop until user enters "Q" to quit application.
+        WriteLine("Create Checking Account 'C'");
+        WriteLine("Create Savings Account  'S'");
+        WriteLine("Quit the Application    'Q'");
+        Write("Enter choice: ");
+        string choice = Console.ReadLine();
+
+        while (true)
+        {
+            if (choice == "C" || choice == "S")
+            {
+                break;
+            }
+            else if (choice == "Q")
+            {
+                continue;
+            }
+        }
+
+        //Create empty line for visual organization.
+        WriteLine("");
+
+        /*1.Create a new checking account object. Account name should be your last name concatenated with word
+          "Checking". Account number should be 1. Assign it an initial balance of $1,000. Fee charge should be
+          $3.00. The order of arguments new object must match order of parameters in constructor.*/
+        CheckingAccount checkingAccount = new CheckingAccount("Berry-Checking", 1, 1000, 3);
+
+        try
+        {
+            checkingAccount.SetBalance(-1000);
+        }
+
+        //Program should catch exception and display error message to user.
+        catch (Exception NegativeNumberException)
+        {
+            Console.WriteLine($"Error: {NegativeNumberException.Message}");
+        }
+
+        /*If exception has not occurred, and a checking or savings object has been successfully created,
+          program should print the info for that object.*/
+        finally
+        {
+            checkingAccount.PrintAccount();
+        }
+
+        {
+            //Print a description of this transaction (i.e. "Created checking account with $1,000 balance.").
+            WriteLine("Created checking account with $1,000 balance.");
+        }
+
+        //Create empty line for visual organization.
+        WriteLine("");
+
+        /*2. Create a new savings account object. The account name should be your last name concatenated with the
+          word "Savings". The account number should be 2. Assign it an initial balance of $2,000. The interest
+          rate should be 5%.*/
+        SavingsAccount savingsAccount = new SavingsAccount("Berry-Savings", 2, 2000, (decimal)0.05);
+
+        try
+        {
+            savingsAccount.SetBalance(-2000);
+        }
+
+        //Program should catch exception and display error message to user.
+        catch (Exception NegativeNumberException)
+        {
+            Console.WriteLine($"Error: {NegativeNumberException.Message}");
+        }
+
+        /*If exception has not occurred, and a checking or savings object has been successfully created,
+          program should print the info for that object.*/
+        finally
+        {
+            savingsAccount.PrintAccount();
+        }
+
+        {
+            //Print a description of this transaction (i.e. "Created savings account with $2,000 balance.").
+            WriteLine("Created savings account with $2,000 balance.");
+        }
+
+        //Removed steps 3 through 18 from Using Inheritance assignment, per "Handling Exceptions" instructions.
+
+        //Create empty line for visual organization.
+        WriteLine("");
+
+        //Pause for user to review results.
+        Write("Press any key to continue...");
+        ReadKey();
+    }
+}
+
+//Create derived class CheckingAccount that inherits from class Account.
+class CheckingAccount : Account
+{
+    //Include a decimal instance variable that represents the fee charged per transaction, called FeeCharged.
+    private decimal feeCharged;
+
+    //Constructor should receive acnt name, acnt number, initial balance, & a parameter indicating a fee charged.
+    public CheckingAccount(string accountName, int accountNumber, int balance, decimal feeCharged) :
+        base(accountName, accountNumber, balance)
+    {
+        SetFeeAmount();
+    }
+
+    //Create a mutator method, setFeeAmount, and call it from the constructor.
+    //If the fee amount is negative, the setFeeAmount should set it to zero.
+    public decimal GetFeeAmount()
+    {
+        return this.feeCharged;
+    }
+
+    public void SetFeeAmount()
+    {
+        if (feeCharged >= 0)
+        {
+            this.balance = feeCharged;
+            
+        }
+
+        else
+        {
+            //If user passes negative amount, exception will be thrown that alerts user negative was entered.
+            //Once error (negative amount) occurs, program should inform user negative numbers not permitted.
+            /*Create exception class (NegativeNumberException) that takes string argument to its constructor
+              that represents error. String should be "Invalid Entry -- Negative numbers are not permitted."*/
+            throw new Exception("Invalid Entry -- Negative numbers are not permitted.");
+        }
+    }
+
+    //balance setter
+    public decimal SetBalance(decimal balancePassedIn)
+    {
+        if (balancePassedIn >= 0)
+        {
+            this.balance = balancePassedIn;
+            return balance;
+        }
+
+        else
+        {
+            //If user passes negative amount, exception will be thrown that alerts user negative was entered.
+            throw new Exception();
+        }
+    }
+
+    /*Class CheckingAccount should redefine methods Credit & Debit so that they subtract fee from account balance
+      whenever either transaction (deposit or withdrawal) is performed successfully.*/
+    /*CheckingAccount's version of these methods should invoke Account to perform updates to account balance.*/
+    public override decimal Credit(decimal balance)
+    {
+        base.Credit(balance);
+        base.Debit(feeCharged);
+        return balance;
+    }
+
+    /*CheckingAccount's Debit method should charge a fee only if money is actually withdrawn (i.e. the debit
+      amount does not exceed the account balance).*/
+    /*Hint: Define Account's Debit method so that it returns a bool indicating whether money was withdrawn.
+      Then use the return value to determine whether a fee should be charged.*/
+    public override decimal Debit(decimal currentBalance)
+    {
+        if (currentBalance > Balance)
+        {
+            Console.WriteLine("Insufficient Funds");
+            return Balance;
+        }
+
+        else
+        {
+            currentBalance = Balance - currentBalance;
+            return currentBalance;
+        }
+    }
+
+    //Create a method in CheckingAccount derived-class that overrides PrintAccount method in Account base-class.
+    //Call base class method to print out account's name, number, and balance.
+    //Include code to print the info specific to derived class (i.e. FeeCharged).
+    public override void PrintAccount()
+    {
+        base.PrintAccount();
+        Console.WriteLine("Fee charged: $" + feeCharged);
+    }
+}
+
+//Create derived class SavingsAccount that inherits from class Account.
+class SavingsAccount : Account
+{
+    //Include decimal instance variable (interestRate) indicating interest rate (double) assigned to Account.
+    /*Set the interestRate variable and validate that the rate is a positive number.If the interest rate is
+      negative, set the interest rate to 0.*/
+    private decimal interestRate;
+    public decimal InterestRate { get; set; }
+
+    //interestRate getter
+    public decimal GetInterestRate()
+    {
+        return this.interestRate;
+    }
+
+    //balance setter
+    public decimal SetInterestRate(decimal interestRatePassedIn)
+    {
+        if (interestRatePassedIn >= 0)
+        {
+            this.interestRate = interestRatePassedIn;
+            return interestRate;
+        }
+
+        else
+        {
+            //If user passes negative amount, exception will be thrown that alerts user negative was entered.
+            //Once error (negative amount) occurs, program should inform user negative numbers not permitted.
+            /*Create exception class (NegativeNumberException) that takes string argument to its constructor
+              that represents error. String should be "Invalid Entry -- Negative numbers are not permitted."*/
+            throw new Exception("Invalid Entry -- Negative numbers are not permitted.");
+        }
+    }
+
+    //Constructor should receive acnt name, acnt number, initial balance, & initial value for interest rate.
+    //Constructor should call base class constructor to initialize account's name, number, and balance.
+    public SavingsAccount(string accountName, int accountNumber, int balance, decimal interestRate) :
+        base(accountName, accountNumber, balance)
+    {
+        //Constructor should also call a method in its own class, SetInterestRate.
+        SetInterestRate(interestRate);
+    }
+
+    /*SavingsAccount should provide public method CalculateInterest that takes no arguments and returns a
+      decimal indicating the amount of interest earned by an account.*/
+    /*CalculateInterest() should determine the amount of interest earned by multiplying the interest rate by
+      the account balance.*/
+    public decimal CalculateInterest()
+    {
+        decimal CalculateInterest = interestRate * Balance;
+        return CalculateInterest;
+    }
+
+    //Note: SavingsAccount should inherit methods Credit & Debit without modifying them.
+
+    //Create a method in SavingsAccount class that overrides the PrintAccount method in the base class.
+    //Call the base class method to print out the account's name, number, and balance.
+    //Include code in dervied class' method to print out info specific to dervied class (i.e. InterestRate).
+    public override void PrintAccount()
+    {
+        base.PrintAccount();
+        Console.WriteLine("Interest rate: " + interestRate + "%");
+    }
+}

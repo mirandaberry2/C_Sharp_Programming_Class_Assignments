@@ -1,0 +1,186 @@
+//My Name: Miranda Berry
+//Date: Mon 17 Feb 2025
+//Program: Classes and Objects
+//Language: C#
+
+/*Create SavingsAccount class with static variable annualInterestRate and private instance variables 
+ * savingsBalance (double) and savingsAccountName (string).*/
+using static System.Console;
+class SavingsAccount
+{
+    /*I had to make annualInterestRate public to help with an error changing interest rate to 5%. Rubric 
+     doesn't say that field can't be public.*/
+
+    /* Instructor Comments:  ALL instance variables need to be something other than public.  The error could 
+     * have been resolved in another way other than exposing the instance variable to your users.  \n*/
+    public static double annualInterestRate;
+    private double savingsBalance;
+    private string savingsAccountName;
+    private double monthlyInterestAccumulated;
+
+    //constructors
+    /*Include a constructor that takes no arguments and sets the savingsBalance variables to zero and sets the
+      savingsAccountName to an empty string by calling the second (i.e. two argument) constructor with 0 and
+      an empty string.*/
+    public SavingsAccount() : this(0, "")
+    {
+        /* Instructor Comments: Not calling the 2-argument constructor to set the values.
+         * Need to use the 'this' keyword. I have added it above. \n */
+        savingsBalance = 0;
+        savingsAccountName = "";
+    }
+
+    /*Inculde a constructor that takes one double argument (the savings Balance) and one string argument (the
+      savingsAccountName), and sets the savingsBalance by calling the setSavingsBalance method and
+      setsavingsAccountName method, respectively.*/
+    public SavingsAccount(double savingsBalance, string savingsAccountName)
+    {
+        /* Instructor Comments: This isn't going to set anything.  You are not passing the values given to you 
+         * into the setters.  How will they know what to set the values to?  \n*/
+        SetSavingsBalance();
+        SetSavingsAccountName();
+    }
+
+    //Create a mutator method, named getSavingsAccountName, to set the savingsAccountName.
+    //This method should take no arguments and return a string (i.e. the savingsAccountName).
+
+    /* Instructor Comments:  You are using a .NET property, and not a setter/getter method.  You were asked to not 
+     * use a .NET property.  \n*/
+    public string getSavingsAccountName //Textbook would've named SavingsAccountName, but I'm following rubric.
+    {
+        get //Read-only property
+        {
+            return savingsAccountName;
+        }
+    }
+
+    /* Instructor Comments: What is this method for?   \n*/ 
+    public void DisplaySavingsAccountName()
+    {
+        WriteLine("Welcome, {0}", getSavingsAccountName);
+    }
+
+    //Create an accessor method, called setSavingsBalance, to retrieve the savingsAccountName.
+    //This method should take no arguments and return a string (i.e., the savingsAccountName).
+
+    /* Instructor Comments: This is a setter, but it is a .NET property. \n*/ 
+    public string setSavingsAccountName
+    {
+        set //Write-only property.
+        {
+            savingsAccountName = value;
+        }
+    }
+
+    /* Instructor Comments:  This is the setter method that you are calling from your constructor, but it doesn't do anything.  \n*/
+    public void SetSavingsAccountName()
+    {
+        return;
+    }
+
+    //Create a mutator method, called setSavingsBalance, to set the savingsBalance.
+    //This method should take no arguments and return a double (i.e., the savingsBalance).
+    public double setSavingsBalance //Textbook would've named SavingsBalance, but I'm following rubric.
+    {
+        set
+        {
+            setSavingsBalance = value;
+        }
+    }
+    public void SetSavingsBalance()
+    {
+        return;
+    }
+
+    //Create CalculateMonthlyInterest method with formula. The method should return void.
+    //I added "Accumulated" in the method identifier, because it helped me differentiate from interest rate.
+    public void CalculateMonthlyInterestAccumulated()
+    {
+        monthlyInterestAccumulated = (savingsBalance * annualInterestRate) / 12;
+    }
+
+    /*Create setAnnualInterestRate method to take a double argument representing the annualInterestRate and
+      return void.*/
+
+    /* Instructor Comments: THIS is the correct way to do a setter.  \n*/
+    public void SetAnnualInterestRate(double rate)
+    {
+        annualInterestRate = rate;
+    }
+
+    /* Instructor Comments:  Missing the getter for the interest rate.  \n*/
+
+    /*Create PrintSavingsAccount method to display the savingsAccountName, savingsBalance, and
+      annualInterestRate for an object. Use the example provided.*/
+    public void PrintSavingsAccount()
+    {
+        WriteLine(savingsAccountName + "\t" + savingsBalance + "\t" + annualInterestRate);
+    }
+}
+
+//Create a separate class called SavingsAccountTest, which contains the Main() method.
+class SavingsAccountTest
+{
+    static void Main()
+    {
+        /*Create three savingsAccount objects called saver1, saver2, and saver3. Initialize saver1 and saver2
+          with the balances listed in the overview and the names "Saver_One" and "Saver_Two", respectively. Do
+          not initialize saver3 with anything. Instead, create the object by invoking its zero-argument
+          constructor, which will initialize its balance to 0 and its name to an empty string.*/
+        SavingsAccount saver1 = new SavingsAccount(2000, "Saver_One");
+        SavingsAccount saver2 = new SavingsAccount(3000, "Saver_Two");
+        SavingsAccount saver3 = new SavingsAccount();
+
+        /*Call the setSavingsAccountName for saver3 to set its name to "Saver_Three". Then, call the
+          setSavingsAccount for saver3 to set its balance to $50,000.*/
+        /*I couldn't put a value in the parentheses without producing "No overload for method... takes 1
+          arguments" error.*/
+
+        /*This is the best I could come up with for this step, but I had to comment it out, or else my program
+          would not run. It would only output "Process is terminated due to StackOverFLowException".*/
+
+        /* Instructor Comments:  You should have touched bases with me if you were having issues.  \n*/
+
+        //saver3.SetSavingsAccountName();
+        //saver3.setSavingsAccountName = "Saver_Three";
+
+        //saver3.SetSavingsBalance();
+        //saver3.setSavingsBalance = 50000;
+
+        //Print the results by calling PrintSavingsAccount for each object.
+        WriteLine("Initial savings account balances: ");
+        saver1.PrintSavingsAccount();
+        saver2.PrintSavingsAccount();
+        saver3.PrintSavingsAccount();
+
+        //Call the CalculateMonthlyInterestRate method for all 3 saver objects.
+        saver1.CalculateMonthlyInterestAccumulated();
+        saver2.CalculateMonthlyInterestAccumulated();
+        saver3.CalculateMonthlyInterestAccumulated();
+
+        //Print the results again by calling PrintSavingsAccount for each object.
+        WriteLine("Savings account balances after calculating monthly interestat 4%: ");
+        saver1.PrintSavingsAccount();
+        saver2.PrintSavingsAccount();
+        saver3.PrintSavingsAccount();
+
+        //Change the annualInterestRate to 5% by calling the setAnnualInterestRate method.
+        //"SavingsAccount.annualInterestRate.SetAnnualInterestRate(0.05);" produced an error code CS1061.
+        SavingsAccount.annualInterestRate = 0.05;
+
+        //Call the CalculateMonthlyInterestRate method for all 3 saver objects.
+        saver1.CalculateMonthlyInterestAccumulated();
+        saver2.CalculateMonthlyInterestAccumulated();
+        saver3.CalculateMonthlyInterestAccumulated();
+
+        //Print the results again by calling PrintSavingsAccount for each object.
+        WriteLine("Savings account balances after calculating monthly interestat 5%: ");
+        saver1.PrintSavingsAccount();
+        saver2.PrintSavingsAccount();
+        saver3.PrintSavingsAccount();
+
+        //Pause for user to review results.
+        Write("Press any key to continue...");
+        ReadKey();
+    }
+}

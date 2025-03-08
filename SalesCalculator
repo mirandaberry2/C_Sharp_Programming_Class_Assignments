@@ -1,0 +1,99 @@
+//Filename SalesCalculator.cs
+//Written by Miranda Berry
+//Written on Monday 27 January 2025
+//Language: C#
+
+using System;
+using static System.Console;
+class SalesCalculator
+
+{
+    static void Main()
+    {
+        /* Instructor Comments:  Good work on the commenting!  Keep this up!  */
+
+        //Initialize variables so that they may be used in scope of entire Main() method, not just within loops.
+        //Initialize variables used for accumulating sales total to 0 or program will not compile.
+        string salesPersonName;
+        int intItemNum = 0;
+        int intQuantity;
+        double dblItemPrice = 0;
+        double dblItemSales;
+        double dblTotalSales = 0;
+
+        //Prompt user to enter salesperson's name, convert type to string, and initialize salesPersonName.
+        Write("Enter salesperson's name: ");
+        salesPersonName = Convert.ToString(ReadLine());
+
+        //Using DO-WHILE control structure to allow user to input -1 to exit program.
+        /*I could not figure out how to get my program to not continue if user types in any value other than
+         1, 2, 3, or 4. Was I supposed to us an if-else statement or a nested loop? If so, how?*/
+        while (intItemNum != -1)
+        {
+            //Prompt user to enter item number, convert type to integer, and store value in intItem.
+            Write("Enter an item number between 1 and 4 or -1 to quit: ");
+            intItemNum = Convert.ToInt32(ReadLine());
+
+            //Display "Invalid Entry" if user enters any value other than 1, 2, 3, or 4.
+
+            /* Instructor Comments:  Always use code blocks for your code structures such as 
+             * if statements, even if there is only 1 line of code to execute.  This is considered
+             * a good coding practice.  \n */
+            if (intItemNum < 1 || intItemNum > 4)
+            WriteLine("Invalid Entry");
+
+            /* Instructor Comments:  If they have entered an invalid value in the statement above, you should not 
+             * be continuing with the rest of the code in the loop.  Doing it this way is throwing your numbers 
+             * off as the code below runs with the last values that were entered by your user.  \n*/
+
+            //Prompt user to enter quantity of that item sold, convert type to integer, and store value in intQuantity.
+            Write("Enter the quantity sold of that item: ");
+            intQuantity = Convert.ToInt32(ReadLine());
+
+            //Use switch statement to assign each item's price to its corresponding item number.
+            switch (intItemNum)
+            {
+                case 1:
+                    dblItemPrice = 239.99;
+                    break;
+                case 2:
+                    dblItemPrice = 129.75;
+                    break;
+                case 3:
+                    dblItemPrice = 99.95;
+                    break;
+                case 4:
+                    dblItemPrice = 350.89;
+                    break;
+                default:
+                    WriteLine("Invalid Entry");
+                    break;
+            }
+
+            //Accumulate total sales and add result to the running total.
+            dblItemSales = dblItemPrice * intQuantity;
+            dblTotalSales += dblItemSales;
+
+            //Display all user-inputted information.
+            /*I used concatenation over a formatted string to string to use the "C2" format specifier
+             on dblTotalSales to guarantee two digits after the decimal, but I could not figure it out
+             without producing an error.*/
+
+            /* Instructor Comments: Need to format the currency, to 2 decimal points. You can do this
+             * with the ToString() method in your WriteLine command below along with the formatting command.
+             * See what I have added below. \n */
+            WriteLine(salesPersonName + " has sold " + intQuantity + " of item #" + intItemNum
+                + ". " + salesPersonName + " has sold a total of $" + dblTotalSales.ToString("c"));
+
+            /* Instructor Comments: the requirement was for the statement above to tell the user the total
+             * for the one sale item.  The total of all sales was to be given when the user 
+             * chose to end the program.  \n*/ 
+        }
+
+        /* Instructor Comments: Need to pause the application at the end so that the
+         * user can review the results. Not doing so looks like your application
+         * has crashed. I am adding the code below. \n */
+        Console.Write("Press any key to continue..");
+        Console.ReadKey();
+    }
+}

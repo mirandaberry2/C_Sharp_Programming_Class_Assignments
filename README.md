@@ -1,1 +1,1 @@
-# C_Sharp_Programming_Class_Assignments
+These are the eight programs I wrote for my C# Programming class (Jan - Mar 2025). I am not familiar with GitHub and how to push, pull, and all of that. I have yet to learn, which is why I simply copied and pasted the code I wrote for each project. Assignment #8, CreatingUserInterface, includes a form. When I learn how to properly use GitHub, hopefully I can upload the form I created that pairs with the code.

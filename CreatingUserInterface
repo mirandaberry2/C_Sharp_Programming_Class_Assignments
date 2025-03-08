@@ -1,0 +1,525 @@
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CreatingUserInterface
+{
+    public partial class frmMain: Form
+    {
+        public frmMain()
+        {
+            InitializeComponent(); /*Keep for successful compile*/
+        }
+
+        private void Form1_Load(object sender, EventArgs e) /*Keep for successful compile*/
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e) /*Keep for successful compile*/
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e) /*Keep for successful compile*/
+        {
+
+        }
+
+        //Close not required, but I wanted to add it.
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            string employeeName = txtEmployeeName.Text;
+            string supervisorName = txtSupervisorName.Text;
+            string reportingPeriod = txtReportingPeriod.Text;
+            string client1 = txtClient1.Text;
+            string client2 = txtClient2.Text;
+            string contract1 = txtContract1.Text;
+            string contract2 = txtContract2.Text;
+            string project1 = txtProject1.Text;
+            string project2 = txtProject2.Text;
+            string empBillingLevel1 = txtEmpBillingLevel1.Text;
+            string empBillingLevel2 = txtEmpBillingLevel2.Text;
+
+            //data validation or error check: Employee Name not blank.
+            if (string.IsNullOrEmpty(employeeName))
+            {
+                MessageBox.Show("Please provide your first and last name.", null, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmployeeName.Focus();
+            }
+            else
+            {
+                string Response = string.Format($"Hello, {employeeName}! Here is your payroll information" +
+                    $"for this week.");
+                MessageBox.Show(Response, "Hello Message");
+            }
+
+            //data validation or error check: Supervisor Name not blank.
+            if (string.IsNullOrEmpty(supervisorName))
+            {
+                MessageBox.Show("Please provide your supervisor's first and last name.", null, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSupervisorName.Focus();
+            }
+            else
+            {
+            }
+
+            //data validation or error check: Reporting period not empty, below Week 1, or above Week 52.
+            if (string.IsNullOrEmpty(reportingPeriod))
+            {
+                MessageBox.Show("Please provide a reporting period between Week 1 and Week 52.", null, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSupervisorName.Focus();
+            }
+
+            if (Convert.ToInt32(reportingPeriod) > 52 || Convert.ToInt32(reportingPeriod) < 1)
+            {
+                MessageBox.Show("Reporting period cannot be below Week 1 or above Week 52.", null, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSupervisorName.Focus();
+            }
+
+            //data validation or error check: All days have either have vacation checked or hours entered.
+            //Monday
+            if(chkboxMon.Checked == false && txtTotalsMon == null)
+            {
+                MessageBox.Show("All days must have either have vacation checked or hours entered.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxMon.Focus();
+            }
+
+            //Tuesday
+            if (chkboxTues.Checked == false && txtTotalsTues == null)
+            {
+                MessageBox.Show("All days must have either have vacation checked or hours entered.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxTues.Focus();
+            }
+
+            //Wednesday
+            if (chkboxWed.Checked == false && txtTotalsWed == null)
+            {
+                MessageBox.Show("All days must have either have vacation checked or hours entered.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxWed.Focus();
+            }
+
+            //Thursday
+            if (chkboxThurs.Checked == false && txtTotalsThurs == null)
+            {
+                MessageBox.Show("All days must have either have vacation checked or hours entered.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxThurs.Focus();
+            }
+
+            //Friday
+            if (chkboxFri.Checked == false && txtTotalsFri == null)
+            {
+                MessageBox.Show("All days must have either have vacation checked or hours entered.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxFri.Focus();
+            }
+
+            //Saturday
+            if (chkboxSat.Checked == false && txtTotalsSat == null)
+            {
+                MessageBox.Show("All days must have either have vacation checked or hours entered.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxSat.Focus();
+            }
+
+            //Sunday
+            if (chkboxSun.Checked == false && txtTotalsSun == null)
+            {
+                MessageBox.Show("All days must have either have vacation checked or hours entered.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxSun .Focus();
+            }
+
+            /*data validation or error check: If any work hours (other than 0) are entered for a day, the
+              checkbox for that day should NOT be checked.*/
+            //Monday
+            if (chkboxTues.Checked == true && txtTotalsMon != null)
+            {
+                MessageBox.Show("Either remove Monday's 'Weekend/Holiday/Vacation' checkmark or change" +
+                    "Monday's hours back to zero.", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxMon.Focus();
+            }
+
+            //Tuesday
+            if (chkboxTues.Checked == true && txtTotalsTues != null)
+            {
+                MessageBox.Show("Either remove Tuesday's 'Weekend/Holiday/Vacation' checkmark or change" +
+                    "Tuesday's hours back to zero.", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxTues.Focus();
+            }
+
+            //Wednesday
+            if (chkboxWed.Checked == true && txtTotalsWed != null)
+            {
+                MessageBox.Show("Either remove Wednesday's 'Weekend/Holiday/Vacation' checkmark or change" +
+                    "Wednesday's hours back to zero.", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxWed.Focus();
+            }
+
+            //Thursday
+            if (chkboxThurs.Checked == true && txtTotalsThurs != null)
+            {
+                MessageBox.Show("Either remove Thursday's 'Weekend/Holiday/Vacation' checkmark or change" +
+                    "Thursday's hours back to zero.", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxThurs.Focus();
+            }
+
+            //Friday
+            if (chkboxFri.Checked == true && txtTotalsFri != null)
+            {
+                MessageBox.Show("Either remove Friday's 'Weekend/Holiday/Vacation' checkmark or change" +
+                    "Friday's hours back to zero.", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxFri.Focus();
+            }
+
+            //Saturday
+            if (chkboxFri.Checked == true && txtTotalsSat != null)
+            {
+                MessageBox.Show("Either remove Saturday's 'Weekend/Holiday/Vacation' checkmark or change" +
+                    "Saturday's hours back to zero.", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxSat.Focus();
+            }
+
+            //Sunday
+            if (chkboxSun.Checked == true && txtTotalsSun != null)
+            {
+                MessageBox.Show("Either remove Sunday's 'Weekend/Holiday/Vacation' checkmark or change" +
+                    "Sunday's hours back to zero.", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                chkboxSun.Focus();
+            }
+
+            //Calculate Row 1 total hours.
+            int row1TotalHours = Convert.ToInt32(txtMon1.Text) + Convert.ToInt32(txtTues1.Text) +
+                Convert.ToInt32(txtWed1.Text) + Convert.ToInt32(txtThurs1.Text) + 
+                Convert.ToInt32(txtFri1.Text) + Convert.ToInt32(txtSat1.Text) +
+                Convert.ToInt32(txtSun1.Text);
+
+            //Calculate Row 2 total hours.
+            int row2TotalHours = Convert.ToInt32(txtMon2.Text) + Convert.ToInt32(txtTues2.Text) +
+                Convert.ToInt32(txtWed2.Text) + Convert.ToInt32(txtThurs2.Text) +
+                Convert.ToInt32(txtFri2.Text) + Convert.ToInt32(txtSat2.Text) +
+                Convert.ToInt32(txtSun2.Text);
+
+            //Calculate Weekly Total hours.
+            int weeklyTotalHours = row1TotalHours + row2TotalHours;
+
+            //Calculate and upload payroll info to bottom section of form.
+            //Total Hours Worked
+            txtTotalHrsWorked.Text = weeklyTotalHours.ToString();
+
+            //Regular Hours Worked
+            int regularHoursWorked = 0;
+
+            if (weeklyTotalHours <= 40 && weeklyTotalHours >= 0)
+            {
+                regularHoursWorked = weeklyTotalHours;
+            }
+            else
+            {
+                regularHoursWorked = 40;
+            }
+
+            txtRegularHrsWorked.Text = regularHoursWorked.ToString();
+
+            //Regular Hourly Pay
+            double regularHourlyPay = 15.00 * regularHoursWorked;
+            txtRegularHourlyPay.Text = regularHourlyPay.ToString();
+
+            //OverTime Hours Worked
+            int overTimeHoursWorked = weeklyTotalHours - regularHoursWorked;
+            txtOverTimeHrsWorked.Text = overTimeHoursWorked.ToString();
+
+            //OverTime Hourly Pay
+            double overTimeHourlyPay = 22.50 * overTimeHoursWorked;
+            txtOvertimeHourlyPay.Text = overTimeHourlyPay.ToString();
+
+            //Number of Weekend/Holiday/Vacation days claimed
+            int checkBoxTally = 0;
+            
+            if (chkboxMon.Checked == true)
+            {
+                checkBoxTally = checkBoxTally + 1;
+            }
+
+            if (chkboxTues.Checked == true)
+            {
+                checkBoxTally = checkBoxTally + 1;
+            }
+
+            if (chkboxWed.Checked == true)
+            {
+                checkBoxTally = checkBoxTally + 1;
+            }
+
+            if (chkboxThurs.Checked == true)
+            {
+                checkBoxTally = checkBoxTally + 1;
+            }
+
+            if (chkboxFri.Checked == true)
+            {
+                checkBoxTally = checkBoxTally + 1;
+            }
+
+            if (chkboxSat.Checked == true)
+            {
+                checkBoxTally = checkBoxTally + 1;
+            }
+
+            if (chkboxSun.Checked == true)
+            {
+                checkBoxTally = checkBoxTally + 1;
+            }
+
+            txtNumWkndHldyVacClaimed.Text = checkBoxTally.ToString();
+
+            //Gross Pay
+            double grossPay = regularHourlyPay + overTimeHourlyPay;
+            txtGrossPay.Text = grossPay.ToString();
+
+            //Display values in "Totals" column in table.
+            txtTotals1.Text = row1TotalHours.ToString();
+            txtTotals2.Text = row2TotalHours.ToString();
+            txtTotalsTotals.Text = weeklyTotalHours.ToString();
+
+            //Label is displayed besides supervisor's name if employee works < 40 hours.
+            if (weeklyTotalHours < 40)
+            {
+                lblLessThan40.Show();
+            }
+        }
+
+        //data validation or error check: User cannot enter more than 24 hours in a day.
+        //Monday Box 1 changes.
+        private void txtMon1_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtMon1.Text) + Convert.ToInt32(txtMon2.Text);
+            txtTotalsMon.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMon1.Focus();
+            }
+        }
+
+        //Monday Box 2 changes.
+        private void txtMon2_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtMon1.Text) + Convert.ToInt32(txtMon2.Text);
+            txtTotalsMon.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMon2.Focus();
+            }
+        }
+
+        //Tuesday box 1 changes.
+        private void txtTues1_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtTues1.Text) + Convert.ToInt32(txtTues2.Text);
+            txtTotalsTues.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTues1.Focus();
+            }
+        }
+
+        //Tuesday Box 2 changes.
+        private void txtTues2_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtTues1.Text) + Convert.ToInt32(txtTues2.Text);
+            txtTotalsTues.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTues2.Focus();
+            }
+        }
+
+        //Wednesday Box 1 changes.
+        private void txtWed1_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtWed1.Text) + Convert.ToInt32(txtWed2.Text);
+            txtTotalsWed.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtWed1.Focus();
+            }
+        }
+
+        //Wednesday Box 2 changes.
+        private void txtWed2_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtWed1.Text) + Convert.ToInt32(txtWed2.Text);
+            txtTotalsWed.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtWed2.Focus();
+            }
+        }
+
+        //Thursday Box 1 changes.
+        private void txtThurs1_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtThurs1.Text) + Convert.ToInt32(txtThurs2.Text);
+            txtTotalsThurs.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtThurs1.Focus();
+            }
+        }
+
+        //Thursday Box 2 changes.
+        private void txtThurs2_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtThurs1.Text) + Convert.ToInt32(txtThurs2.Text);
+            txtTotalsThurs.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtThurs2.Focus();
+            }
+        }
+
+        //Friday Box 1 changes.
+        private void txtFri1_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtFri1.Text) + Convert.ToInt32(txtFri2.Text);
+            txtTotalsFri.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtFri1.Focus();
+            }
+        }
+
+        //Friday Box 2 changes.
+        private void txtFri2_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtFri1.Text) + Convert.ToInt32(txtFri2.Text);
+            txtTotalsFri.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtFri2.Focus();
+            }
+        }
+
+        //Saturday Box 1 changes.
+        private void txtSat1_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtSat1.Text) + Convert.ToInt32(txtSat2.Text);
+            txtTotalsSat.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSat1.Focus();
+            }
+        }
+
+        //Saturday Box 2 changes.
+        private void txtSat2_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtSat1.Text) + Convert.ToInt32(txtSat2.Text);
+            txtTotalsSat.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSat2.Focus();
+            }
+        }
+
+        //Sunday Box 1 changes.
+        private void txtSun1_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtSun1.Text) + Convert.ToInt32(txtSun2.Text);
+            txtTotalsSun.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSun1.Focus();
+            }
+        }
+
+        //Sunday Box 2 changes.
+        private void txtSun2_TextChanged(object sender, EventArgs e)
+        {
+            int hours = Convert.ToInt32(txtSun1.Text) + Convert.ToInt32(txtSun2.Text);
+            txtTotalsSun.Text = hours.ToString();
+
+            //error check
+            if (hours > 24)
+            {
+                MessageBox.Show("A day's total hours may not exceed 24.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSun2.Focus();
+            }
+        }
+    }
+}

@@ -1,0 +1,87 @@
+//Filename PowerOfNumbers.cs
+//Written by Miranda Berry
+//Written on Monday 10 February 2025
+//Language: C#
+
+using System;
+using System.Runtime.Remoting.Messaging;
+using static System.Console;
+class PowerOfNumbers
+{
+    public static void Main()
+    {
+        //Declare 3 arrays of long data types: baseNumbers, exponents, and results.
+        //Each array should be created to hold exactly 5 members.
+
+        /* Instructor Comments:  Better just to use the long data type rather than the Int64 one.  \n*/
+        Int64[] baseNumbers = new long[5];
+        Int64[] exponents = new long[5];
+        Int64[] results = new long[5];
+
+        /*Using a FOR loop and random number generator, populate the baseNumbers array with random integers
+          between 1 and 50.*/
+        for (int x = 0; x < baseNumbers.Length; ++x)
+        {
+            /* Instructor Comments: This is why you are getting the same number for each iteration.  Don't 
+             * redeclare the class object with each loop.  Create it once at the beginning of the method
+             * and use that same instance to generate a new number within the loop.  \n*/ 
+            Random randomGen = new Random();
+            baseNumbers[x] = randomGen.Next(1, 50);
+        }
+
+        /*Using a FOR loop and random number generator, populate the exponents array with random integers
+          between 1 and 10.*/
+        for (int x = 0; x < exponents.Length; ++x)
+        {
+            Random randomGen = new Random();
+            exponents[x] = randomGen.Next(1, 10);
+        }
+
+        /*Using another FOR loop, call Power method, passing it a member of baseNumbers array & a member of
+          exponents array for each iteration of the loop. Store the returned values in the results array.*/
+        /*The Power method should use this algorithm and MUST be recursive, taking two longs as arguments and
+          returning a long data type.*/
+
+        /* Instructor Comments:  Always use code blocks for your code structures such as 
+         * if statements or for loops, even if there is only 1 line of code to execute.  This is considered
+         * a good coding practice.  \n */
+        for (int x = 0; x < results.Length; ++x)
+
+            /* Instructor Comments:  This is not what was required.  You were to create your own Power method, not use the 
+             * built in one, and that method was to use recursion to get to the answer.  This isn't recursion.  \n*/
+            results[x] = Convert.ToInt64(Math.Pow(baseNumbers[x], exponents[x]));
+
+        PrintArrays(baseNumbers[0], exponents[0], results[0]);
+
+        /*I could not figure out how to use GetUpperBound() within PrintArrays() without producing a "type does
+          not contain a GetUpperBound definition" error.*/
+
+        /* Instructor Comments: Should have used this in the print array method.  And the value returned
+         * would be in the for loop argument.  \n*/
+        long upperBound = baseNumbers.GetUpperBound(0);
+
+        //Pause for user to review results.
+        WriteLine("");
+        Write("Press any key to continue...");
+        ReadKey();
+    }
+
+    /*Create another method called PrintArrays that takes as arguments the three arrays you created above
+      and returns void.*/
+    /*The method should print a header as "Base", "Exponent", and "Result" with each word separated with a
+      single tab character.*/
+    public static void PrintArrays(long baseNumbers, long exponents, long results)
+    {
+        WriteLine("Base\tExponent\tResult");
+
+        //Using a FOR loop, iterate over each array to determine the condition for which the loop terminates.
+        /*For each iteration of the loop, print out the base, exponent, and result from each array under the
+          appropriate column headings.*/
+
+        /* Instructor Comments:  Always use code blocks for your code structures such as 
+         * if statements and for loops, even if there is only 1 line of code to execute.  This is considered
+         * a good coding practice.  \n */
+        for (int x = 0; x < 5; x++)
+                WriteLine("{0}\t{1}\t\t{2}", baseNumbers, exponents, results);
+    }
+}

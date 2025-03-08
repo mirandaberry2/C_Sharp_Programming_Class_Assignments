@@ -1,0 +1,48 @@
+//Filename SimpleMath.cs
+//Written by Miranda Berry
+//Written on Monday 20 January 2025
+
+using System;
+using static System.Console;
+class SimpleMath
+{
+    static void Main()
+    {
+        Write("Enter an integer: ");
+        int integer1 = Convert.ToInt32(ReadLine());
+
+        Write("Enter another integer: ");
+        int integer2 = Convert.ToInt32(ReadLine());
+
+        WriteLine("The two numbers you entered are {0} and {1}.", integer1, integer2);
+
+        int sum = integer1 + integer2;
+        int difference = integer1 - integer2;
+        int product = integer1 * integer2;
+        int quotient = integer1 / integer2;
+        int modulus = integer1 % integer2;
+
+        WriteLine("The sum of {0} and {1} is {2}.", integer1, integer2, sum);
+        WriteLine("The difference between {0} and {1} is {2}.", integer1, integer2, difference);
+        WriteLine("The product of {0} and {1} is {2}.", integer1, integer2, product);
+        WriteLine("The quotient of {0} and {1} is {2}, with a modulus or remainder " +
+            "of {3}.", integer1, integer2, quotient, modulus);
+
+        if (integer1 > integer2)
+        {
+            WriteLine("The larger of the two numbers is {0}.", integer1);
+        }
+
+        if (integer2 > integer1)
+        {
+            WriteLine("The larger of the two numbers is {0}.", integer2);
+        }
+
+        if (integer1 == integer2)
+        {
+            WriteLine("The two numbers are equal.");
+        }
+
+    }
+
+}
